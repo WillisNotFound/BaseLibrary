@@ -4,6 +4,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
 import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import com.willis.base.utils.AppUtils.appContext
 
@@ -24,6 +25,11 @@ fun <T : View> T.visible() {
 fun <T : View> T.isVisible(): Boolean {
     return visibility == View.VISIBLE
 }
+
+fun View.setWidthHeight(width: Int, height: Int) {
+    layoutParams = ViewGroup.LayoutParams(width, height)
+}
+
 
 val displayMetrics: DisplayMetrics by lazy { appContext.resources.displayMetrics }
 
