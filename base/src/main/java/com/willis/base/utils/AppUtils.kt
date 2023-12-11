@@ -9,12 +9,14 @@ import android.content.Context
  * @date: 2023/12/8
  */
 
-@SuppressLint("StaticFieldLeak")
-lateinit var appContext: Context
+object AppUtils {
+    @SuppressLint("StaticFieldLeak")
+    lateinit var appContext: Context
 
-fun initAppContext(context: Context) {
-    if (::appContext.isInitialized) {
-        throw RuntimeException("AppUtils.initAppContext(Context) can only be called once!!!")
+    fun init(context: Context) {
+        if (::appContext.isInitialized) {
+            throw RuntimeException("AppUtils.init(Context) can only be called once!!!")
+        }
+        appContext = context.applicationContext
     }
-    appContext = context.applicationContext
 }

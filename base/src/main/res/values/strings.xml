@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tips_edit_cancel">取消编辑</string>
+    <string name="tips_edit_confirm">确认编辑</string>
+    <string name="tips_edit_success">编辑成功</string>
+    <string name="tips_edit_failure">编辑失败</string>
+</resources>
