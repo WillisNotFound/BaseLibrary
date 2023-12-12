@@ -31,8 +31,10 @@ object KeyboardUtils {
     /**
      * 隐藏键盘
      */
-    fun hideKeyboard(view: View) {
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    fun hideKeyboard() {
+        ActivityUtils.currentActivity?.window?.decorView?.windowToken?.let {
+            inputMethodManager.hideSoftInputFromWindow(it, 0)
+        }
     }
 
     /**

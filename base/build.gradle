@@ -61,4 +61,6 @@ dependencies {
     implementation androidx.lifecycle_viewmodel_ktx
     implementation google.gson
     implementation google.material
+    implementation squareup.okhttp3
+    implementation tencent.mmkv
 }

@@ -2,14 +2,12 @@ package com.willis.base.services.impl
 
 import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.GradientDrawable
 import android.os.Looper
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.TextView
 import android.widget.Toast
-import com.google.android.material.color.utilities.MaterialDynamicColors.background
 import com.willis.base.ext.dp
 import com.willis.base.ext.dpf
 import com.willis.base.ext.setWidthHeight
@@ -32,6 +30,7 @@ internal object ToastService : IToastService {
         view = TextView(appContext).apply {
             setWidthHeight(WRAP_CONTENT, WRAP_CONTENT)
             setPadding(24.dp, 12.dp, 24.dp, 12.dp)
+            background = ShapeUtils.buildCustomShape(24.dpf).apply { alpha = 200 }
             setTextColor(Color.WHITE)
             setTextSize(TypedValue.COMPLEX_UNIT_SP, 14F)
             gravity = Gravity.CENTER
@@ -55,7 +54,7 @@ internal object ToastService : IToastService {
         val block = {
             (sToast.view as? TextView)?.let {
                 it.text = content
-                it.background = ShapeUtils.buildCustomShape(24.dpf, backgroundColor)
+                it.background.setTint(backgroundColor.toInt())
             }
             sToast.duration = duration
             sToast.show()
