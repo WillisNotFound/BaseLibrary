@@ -2,6 +2,7 @@ package com.willis.base.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Resources
 
 /**
  * description: APP 工具类
@@ -19,4 +20,14 @@ object AppUtils {
         }
         appContext = context.applicationContext
     }
+
+    fun getString(stringId: Int): String {
+        val result = try {
+            appContext.resources.getString(stringId)
+        } catch (e: Resources.NotFoundException) {
+            "null"
+        }
+        return result
+    }
+
 }
