@@ -28,8 +28,6 @@ internal object ToastService : IToastService {
     private const val COLOR_RIGHT: Long = 0xFF52B45E
     private const val COLOR_ERROR: Long = 0xFFFF4D4D
 
-    private var sToast: Toast? = null
-
     override fun showNormal(content: String, duration: Int) {
         show(content, COLOR_NORMAL, duration)
     }
@@ -45,16 +43,10 @@ internal object ToastService : IToastService {
     @Synchronized
     private fun show(content: String, backgroundColor: Long, duration: Int) {
         val block = {
-            if (sToast == null) {
-                sToast = Toast(appContext).apply { view = createToastView() }
-            }
-            sToast!!.apply {
-                (view as? TextView)?.let {
-                    it.text = content
-                    it.background.setTint(backgroundColor.toInt())
-                }
+            Toast(appContext).apply {
+                view = createToastView(content, backgroundColor)
                 this.duration = duration
-                this.show()
+                show()
             }
         }
         if (Looper.myLooper() != Looper.getMainLooper()) {
@@ -64,13 +56,14 @@ internal object ToastService : IToastService {
         }
     }
 
-    private fun createToastView() = TextView(appContext).apply {
+    private fun createToastView(content: String, backgroundColor: Long) = TextView(appContext).apply {
         setWidthHeight(WRAP_CONTENT, WRAP_CONTENT)
         setPadding(24.dp, 12.dp, 24.dp, 12.dp)
-        background = ShapeUtils.buildCustomShape(24.dpf).apply { alpha = 200 }
+        background = ShapeUtils.buildCustomShape(24.dpf, backgroundColor).apply { alpha = 200 }
         setTextColor(Color.WHITE)
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 14F)
         gravity = Gravity.CENTER
+        text = content
         typeface = Typeface.create("sans-serif", Typeface.NORMAL)
     }
 }
