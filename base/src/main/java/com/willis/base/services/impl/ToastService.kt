@@ -5,9 +5,11 @@ import android.graphics.Typeface
 import android.os.Looper
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.material.color.utilities.MaterialDynamicColors.background
 import com.willis.base.ext.dp
 import com.willis.base.ext.dpf
 import com.willis.base.ext.setWidthHeight
@@ -26,17 +28,7 @@ internal object ToastService : IToastService {
     private const val COLOR_RIGHT: Long = 0xFF52B45E
     private const val COLOR_ERROR: Long = 0xFFFF4D4D
 
-    private val sToast = Toast(appContext).apply {
-        view = TextView(appContext).apply {
-            setWidthHeight(WRAP_CONTENT, WRAP_CONTENT)
-            setPadding(24.dp, 12.dp, 24.dp, 12.dp)
-            background = ShapeUtils.buildCustomShape(24.dpf).apply { alpha = 200 }
-            setTextColor(Color.WHITE)
-            setTextSize(TypedValue.COMPLEX_UNIT_SP, 14F)
-            gravity = Gravity.CENTER
-            typeface = Typeface.create("sans-serif", Typeface.NORMAL)
-        }
-    }
+    private var sToast: Toast? = null
 
     override fun showNormal(content: String, duration: Int) {
         show(content, COLOR_NORMAL, duration)
@@ -50,19 +42,35 @@ internal object ToastService : IToastService {
         show(content, COLOR_ERROR, duration)
     }
 
+    @Synchronized
     private fun show(content: String, backgroundColor: Long, duration: Int) {
         val block = {
-            (sToast.view as? TextView)?.let {
-                it.text = content
-                it.background.setTint(backgroundColor.toInt())
+            if (sToast == null) {
+                sToast = Toast(appContext).apply { view = createToastView() }
             }
-            sToast.duration = duration
-            sToast.show()
+            sToast!!.apply {
+                (view as? TextView)?.let {
+                    it.text = content
+                    it.background.setTint(backgroundColor.toInt())
+                }
+                this.duration = duration
+                this.show()
+            }
         }
         if (Looper.myLooper() != Looper.getMainLooper()) {
             ActivityUtils.currentActivity?.runOnUiThread { block() }
         } else {
             block()
         }
+    }
+
+    private fun createToastView() = TextView(appContext).apply {
+        setWidthHeight(WRAP_CONTENT, WRAP_CONTENT)
+        setPadding(24.dp, 12.dp, 24.dp, 12.dp)
+        background = ShapeUtils.buildCustomShape(24.dpf).apply { alpha = 200 }
+        setTextColor(Color.WHITE)
+        setTextSize(TypedValue.COMPLEX_UNIT_SP, 14F)
+        gravity = Gravity.CENTER
+        typeface = Typeface.create("sans-serif", Typeface.NORMAL)
     }
 }
