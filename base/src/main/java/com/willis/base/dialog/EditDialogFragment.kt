@@ -2,7 +2,6 @@ package com.willis.base.dialog
 
 import android.app.Dialog
 import android.os.Bundle
-import android.text.method.ScrollingMovementMethod
 import android.view.Gravity
 import android.view.KeyEvent
 import android.view.LayoutInflater

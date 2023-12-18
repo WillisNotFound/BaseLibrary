@@ -5,5 +5,9 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.BaseLibrary" parent="Base.Theme.BaseLibrary" />
+    <style name="Theme.BaseLibrary" parent="Base.Theme.BaseLibrary">
+        <item name="android:windowBackground">#FFECEFF1</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
 </resources>

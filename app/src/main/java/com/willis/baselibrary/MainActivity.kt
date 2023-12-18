@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.willis.base.dialog.ConfirmDialogBuilder
+import com.willis.base.dialog.EditDialogBuilder
+import com.willis.base.services.dialogService
 import com.willis.base.services.toastService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,14 +18,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         findViewById<Button>(R.id.main_btn_1).setOnClickListener {
             lifecycleScope.launch {
-                withContext(Dispatchers.Default) {
-                    toastService.showNormal("你好")
-                }
+                dialogService.showConfirmDialog(supportFragmentManager, ConfirmDialogBuilder("修改", "skdja"))
             }
         }
 
         findViewById<Button>(R.id.main_btn_2).setOnClickListener {
-            toastService.showRight("你好")
+            lifecycleScope.launchWhenResumed {
+                dialogService.showEditDialog(supportFragmentManager, EditDialogBuilder("修改", "skdja"))
+            }
         }
 
         findViewById<Button>(R.id.main_btn_3).setOnClickListener {
