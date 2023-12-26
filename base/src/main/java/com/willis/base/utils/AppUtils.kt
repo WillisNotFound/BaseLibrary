@@ -30,4 +30,12 @@ object AppUtils {
         return result
     }
 
+    fun getString(stringId: Int, vararg params: Any): String {
+        val result = try {
+            appContext.resources.getString(stringId, params)
+        } catch (e: Resources.NotFoundException) {
+            "null"
+        }
+        return result
+    }
 }
