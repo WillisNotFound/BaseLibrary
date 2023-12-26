@@ -1,5 +1,6 @@
 package com.willis.base.ext
 
+import android.graphics.Rect
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
@@ -24,6 +25,14 @@ fun <T : View> T.visible() {
 
 fun <T : View> T.isVisible(): Boolean {
     return visibility == View.VISIBLE
+}
+
+fun View.rect(): Rect {
+    val width = measuredWidth
+    val height = measuredHeight
+    val location = IntArray(2)
+    getLocationOnScreen(location)
+    return Rect(location[0], location[1], width + location[0], height + location[1])
 }
 
 fun View.setWidthHeight(width: Int, height: Int) {
