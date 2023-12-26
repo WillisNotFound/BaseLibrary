@@ -27,11 +27,11 @@ fun <T : View> T.isVisible(): Boolean {
     return visibility == View.VISIBLE
 }
 
-fun View.rect(): Rect {
+fun View.rectInWindow(): Rect {
     val width = measuredWidth
     val height = measuredHeight
     val location = IntArray(2)
-    getLocationOnScreen(location)
+    getLocationInWindow(location)
     return Rect(location[0], location[1], width + location[0], height + location[1])
 }
 
